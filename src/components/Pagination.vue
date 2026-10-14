@@ -1,13 +1,20 @@
 <template>
 
     <nav class="pagination">
-        <button class="navbutton" @click="$emit('previous-page')" :disabled="currentPage === 1">←</button>
+
+        <span @click="$emit('previous-page')" :class="{ disabled: currentPage === 1 }" aria-label="Page précédente">
+            <PhArrowCircleLeft :size="40" class="arrow" />
+        </span>
 
         <span class="pages">
             Page {{ currentPage }} / {{ totalPages }}
         </span>
 
-        <button class="navbutton" @click="$emit('next-page')" :disabled="currentPage === totalPages">→</button>
+        <span @click="$emit('next-page')" :class="{ disabled: currentPage === totalPages }" role="button" tabindex="0"
+            aria-label="Page suivante">
+            <PhArrowCircleRight :size="40" class="arrow" />
+        </span>
+
 
     </nav>
 
@@ -15,7 +22,14 @@
 
 
 <script>
+import { PhArrowCircleRight } from '@phosphor-icons/vue';
+import { PhArrowCircleLeft } from '@phosphor-icons/vue';
+
 export default {
+    components: {
+        PhArrowCircleRight,
+        PhArrowCircleLeft
+    },
     props: {
         currentPage: Number,
         totalPages: Number
@@ -40,27 +54,14 @@ export default {
     padding-bottom: 2em;
 }
 
-.navbutton {
-    font-family: "Open Sans", sans-serif;
-    font-size: 16px;
-    letter-spacing: 2px;
-    text-decoration: none;
-    text-transform: uppercase;
-    color: #000;
+.arrow:hover {
     cursor: pointer;
-    border: 3px solid;
-    padding: 0.25em 0.5em;
-    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
-    position: relative;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+    color: #d99500;
 }
 
-button:active {
-    box-shadow: 0px 0px 0px 0px;
-    top: 5px;
-    left: 5px;
+span.disabled {
+    opacity: 0.4;
+    pointer-events: none;
 }
 
 @media (min-width: 768px) {

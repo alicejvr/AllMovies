@@ -23,7 +23,7 @@
         </select>
 
         <button class="searchbutton" type="submit">
-            Chercher
+            <PhMagnifyingGlass :size="20" />
         </button>
 
         <button class="searchbutton" type="button" @click="clearSearch">
@@ -38,8 +38,13 @@
 
 <script>
 import api from '../api.js'
+import { PhMagnifyingGlass } from '@phosphor-icons/vue';
 
 export default {
+    components: {
+        PhMagnifyingGlass
+    },
+
     data() {
         return {
             searchText: '',
@@ -90,26 +95,29 @@ export default {
 <style scoped>
 form {
     display: flex;
-    align-items: stretch;
-    gap: 16px;
+    align-items: center;
+    gap: 12px;
     flex-wrap: wrap;
-    margin: 20px 0;
+    margin: 0;
+    width: 100%;
+    min-width: 0;
 }
 
-/* Champ de recherche */
 input[type="text"] {
     font-family: "Open Sans", sans-serif;
     font-size: 16px;
     padding: 12px 16px;
-    min-width: 250px;
-    flex: 1;
+    min-width: 0;
+    width: 100%;
+    max-width: 280px;
+    box-sizing: border-box;
+    flex: 1 1 180px;
     border: 2px solid #000;
     background-color: #fff;
     color: #000;
     box-shadow: 3px 3px 0 #000;
 }
 
-/* Liste déroulante */
 select {
     font-family: "Open Sans", sans-serif;
     font-size: 15px;
@@ -121,7 +129,6 @@ select {
     cursor: pointer;
 }
 
-/* Boutons */
 .searchbutton {
     font-family: "Open Sans", sans-serif;
     font-size: 13px;
@@ -141,18 +148,15 @@ select {
     transition: transform 0.1s, box-shadow 0.1s;
 }
 
-/* Effet au survol */
 .searchbutton:hover {
-    background-color: #d5dbe6;
+    background-color: #d99500;
 }
 
-/* Effet quand on clique */
 .searchbutton:active {
     transform: translate(3px, 3px);
     box-shadow: 0 0 0 #000;
 }
 
-/* Adaptation aux petits écrans */
 @media (max-width: 650px) {
     form {
         flex-direction: column;
@@ -163,6 +167,8 @@ select {
     input[type="text"] {
         min-width: 0;
         box-sizing: border-box;
+        height: 44px;
+        flex: 0 0 44px;
     }
 }
 </style>

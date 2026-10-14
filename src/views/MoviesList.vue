@@ -1,5 +1,5 @@
 <template>
-    <p v-if="loading">Chargement...</p>
+    <p v-if="loading" class="loading">Chargement...</p>
 
     <p v-else-if="error">{{ error }}</p>
 
@@ -236,6 +236,10 @@ export default {
     transition: transform 0.3s ease;
     width: 90%;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.loading {
+    text-align: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {

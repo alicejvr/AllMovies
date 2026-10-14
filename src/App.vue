@@ -1,10 +1,12 @@
 <script>
 import Search from '@/components/Search.vue';
+import { PhUserCircle } from '@phosphor-icons/vue';
 
 export default {
   name: 'App',
   components: {
-    Search
+    Search,
+    PhUserCircle
   },
 
   methods: {
@@ -38,6 +40,13 @@ export default {
     <!-- barre de recherche -->
     <Search @search="searchMovies" @clear-search="goHome" />
 
+    <!-- bouton de connexion -->
+    <!-- <RouterLink to="/login" class="connexion"><button>Connexion</button></RouterLink> -->
+
+    <RouterLink to="/login" aria-label="Connexion" class="login-icon">
+      <PhUserCircle :size="45" />
+    </RouterLink>
+
   </header>
 
   <!-- contenu de la page -->
@@ -57,12 +66,13 @@ export default {
 <style scoped>
 main {
   flex: 1;
+  min-width: 0;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
   padding: 1rem 2rem;
   border-bottom: solid 0.1em rgb(176, 182, 187);
 }
@@ -77,6 +87,8 @@ img {
 }
 
 .footer {
+  width: 100%;
+  box-sizing: border-box;
   background-color: #d5dbe6;
   color: #4b464a;
   text-align: center;
@@ -88,5 +100,31 @@ img {
 .footer p {
   margin: 0.4rem;
   font-size: 0.9rem;
+}
+
+.login-icon {
+  color: black;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.login-icon:hover {
+  color: #d99500
+}
+
+@media (max-width: 425px) {
+  .header {
+    gap: 0.75rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .header> :deep(form) {
+    flex: 1 1 100%;
+  }
 }
 </style>
