@@ -1,5 +1,6 @@
 <script>
 import Search from '@/components/Search.vue';
+import { PhSignIn } from '@phosphor-icons/vue';
 import { PhUserCircle } from '@phosphor-icons/vue';
 import { PhSignOut } from '@phosphor-icons/vue';
 
@@ -8,13 +9,17 @@ export default {
   components: {
     Search,
     PhUserCircle,
-    PhSignOut
+    PhSignOut,
+    PhSignIn
   },
 
   data() {
+    const user = JSON.parse(localStorage.getItem('user'))
+
     return {
-      isLoggedIn: !!localStorage.getItem('user') // récupère les infos de l'utilisateur - !! transforme le résultat en boolean (true si une valeur existe)
-    };
+      isLoggedIn: !!user, // récupère les infos de l'utilisateur - !! transforme le résultat en boolean (true si une valeur existe)
+      username: user?.user?.username || '' // récup les données, transforme le txt en  objet JS, '?.username'  récupère le username si l'objet existe
+    }; // || '' utilise une chaîne vide si aucun nom n'est disponible.
   },
 
   mounted() {
@@ -25,6 +30,7 @@ export default {
   },
 
   methods: {
+
     searchMovies(criteria) {
       this.$router.push({ // demande à Vue Router d'aller vers /movies en ajoutant les critères dans l'URL
         path: '/movies',
@@ -35,11 +41,15 @@ export default {
         }
       })
     },
+
     goHome() {
       this.$router.replace('/movies')
     },
+
     updateAuth() {
-      this.isLoggedIn = !!localStorage.getItem('user'); // actualise isLoggingIn selon le contenu du localStorage
+      const user = JSON.parse(localStorage.getItem('user'));
+      this.isLoggedIn = !!user;
+      this.username = user?.user?.username || '' // actualise isLoggingIn selon le contenu du localStorage
     }
   }
 }
@@ -58,14 +68,21 @@ export default {
     <!-- barre de recherche -->
     <Search @search="searchMovies" @clear-search="goHome" />
 
-    <RouterLink to="/login" aria-label="Connexion" class="login-icon">
-      <PhUserCircle :size="45" />
+    <!-- Non connecté : icône et texte -->
+    <RouterLink v-if="!isLoggedIn" to="/login" aria-label="Se connecter" class="login-icon">
+      <PhSignIn :size="45" />
+      <span>Se connecter</span>
     </RouterLink>
 
+    <!-- Connecté : icône utilisateur et nom -->
+    <RouterLink v-else to="/profile" aria-label="Mon profil" class="login-icon">
+      <PhUserCircle :size="45" />
+      <span>{{ username }}</span>
+    </RouterLink>
 
     <RouterLink v-if="isLoggedIn" to="/logout" aria-label="Déconnexion" class="logout-icon">
       <!-- bouton apparait si user connecté -->
-      <PhSignOut :size="45" />
+      <PhSignOut :size="40" />
     </RouterLink>
 
 
@@ -133,6 +150,7 @@ img {
   justify-content: center;
   flex-shrink: 0;
   margin-left: auto;
+  gap: 8px;
 }
 
 .login-icon:hover,

@@ -21,6 +21,10 @@
                 {{ loading ? 'Connexion...' : 'Se connecter' }}
             </button>
         </form>
+
+        <p class="signup">Vous n’avez pas encore de compte ? <RouterLink to="/signup">S’inscrire</RouterLink>
+        </p>
+
     </div>
 </template>
 
@@ -137,5 +141,10 @@ button:active {
 .error {
     color: #c62828;
     margin-bottom: 15px;
+}
+
+.signup {
+    text-align: center;
+    padding-top: 2em;
 }
 </style>

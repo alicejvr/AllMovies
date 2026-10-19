@@ -246,7 +246,7 @@ export default {
 
     .movie-card img:hover,
     .movie-card img :focus-visible {
-        transform: scale(1.1)
+        transform: scale(1.010)
     }
 }
 

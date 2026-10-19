@@ -20,6 +20,15 @@ class AuthService {
     logout() {
         localStorage.removeItem('user');
     }
+
+    signup(user) {
+        return api.post('/api/users', {
+            username: user.username,
+            email: user.email,
+            plainPassword: user.plainPassword
+        });
+    }
+
 }
 
 export default new AuthService();
