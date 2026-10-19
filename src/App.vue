@@ -1,12 +1,27 @@
 <script>
 import Search from '@/components/Search.vue';
 import { PhUserCircle } from '@phosphor-icons/vue';
+import { PhSignOut } from '@phosphor-icons/vue';
 
 export default {
   name: 'App',
   components: {
     Search,
-    PhUserCircle
+    PhUserCircle,
+    PhSignOut
+  },
+
+  data() {
+    return {
+      isLoggedIn: !!localStorage.getItem('user') // récupère les infos de l'utilisateur - !! transforme le résultat en boolean (true si une valeur existe)
+    };
+  },
+
+  mounted() {
+    window.addEventListener('auth-change', this.updateAuth); // écoute l'événement auth-change pour détecter les changements de connexion
+  },
+  beforeUnmount() {
+    window.removeEventListener('auth-change', this.updateAuth); // supprime l'écouteur lorsque le composant est détruit
   },
 
   methods: {
@@ -22,6 +37,9 @@ export default {
     },
     goHome() {
       this.$router.replace('/movies')
+    },
+    updateAuth() {
+      this.isLoggedIn = !!localStorage.getItem('user'); // actualise isLoggingIn selon le contenu du localStorage
     }
   }
 }
@@ -34,18 +52,22 @@ export default {
 
     <!-- logo -->
     <RouterLink to="/movies" class="logo">
-      <img src="../public/logo.png" alt="Retour à l'accueil">
+      <img src="../logo.png" alt="Retour à l'accueil">
     </RouterLink>
 
     <!-- barre de recherche -->
     <Search @search="searchMovies" @clear-search="goHome" />
 
-    <!-- bouton de connexion -->
-    <!-- <RouterLink to="/login" class="connexion"><button>Connexion</button></RouterLink> -->
-
     <RouterLink to="/login" aria-label="Connexion" class="login-icon">
       <PhUserCircle :size="45" />
     </RouterLink>
+
+
+    <RouterLink v-if="isLoggedIn" to="/logout" aria-label="Déconnexion" class="logout-icon">
+      <!-- bouton apparait si user connecté -->
+      <PhSignOut :size="45" />
+    </RouterLink>
+
 
   </header>
 
@@ -102,7 +124,8 @@ img {
   font-size: 0.9rem;
 }
 
-.login-icon {
+.login-icon,
+.logout-icon {
   color: black;
   text-decoration: none;
   display: flex;
@@ -112,7 +135,8 @@ img {
   margin-left: auto;
 }
 
-.login-icon:hover {
+.login-icon:hover,
+.logout-icon:hover {
   color: #d99500
 }
 

@@ -49,6 +49,7 @@ export default {
                 password: this.password
             })
                 .then(() => {
+                    window.dispatchEvent(new Event('auth-change')); // dispatchEvent = déclenche un événement 'aut-change' pr signaler un changement d'état de connexion
                     this.$router.push('/movies');
                 })
                 .catch(error => {
